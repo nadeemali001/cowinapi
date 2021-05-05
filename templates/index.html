@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>UTA - Home Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+<div class="row">
+    <div class="col-md-12 text-center">
+
+        <h1>Hospitals available for Vaccinations</h1>
+        <table class="table table-hover">
+            <tr>
+                    <th>Number</th>
+                    <th>Result</th>
+            </tr>
+            {% for k, v in dict1.items() %}
+                    <tr>
+                            <td>{{ k }}</td>
+                            <td>{{ v }}</td>
+                    </tr>
+            {% endfor %}
+        </table>
+        
+        </div>
+</div>
+</body>
+</html>    
+
+
+
