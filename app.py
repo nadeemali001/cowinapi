@@ -3,13 +3,14 @@ import json, datetime, sys, urllib.request
 
 app = Flask(__name__)
 
-def cowin_api(idx):
+def cowin_api(pin,age):
     d=datetime.datetime.now()
     date=d.strftime("%d-%m-%Y")
-    district_id=idx
-    age = 18
-    #url = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode='+pincode+'&date='+date
-    url = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id='+district_id+'&date='+date
+    #district_id=distid
+    pincode=pin
+    age = age
+    url = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode='+pincode+'&date='+date
+    #url = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id='+district_id+'&date='+date
     #print(url)
     response = urllib.request.urlopen(url)
     data = json.loads(response.read())
@@ -29,7 +30,7 @@ def cowin_api(idx):
                             for key,value in data1.items():
                                 if (key=='available_capacity' and value>0):
                                     #print('{} Vaccine(s) is(are) available for {}+ age at {} for {}. Please book now.'.format(value,age,name,dt))
-                                    list1.append('{} Vaccine(s) is(are) available for {}+ age at {} for {}. Please book now.'.format(value,age,name,dt))
+                                    list1.append('{} Vaccine(s) is(are) available for {}+ age at {} for {}.'.format(value,age,name,dt))
     #print(list1)
     dictOfWords = { i : list1[i] for i in range(0, len(list1) ) }
     #print (dictOfWords)
@@ -37,9 +38,10 @@ def cowin_api(idx):
 
     
 @app.route('/')
-@app.route('/<idx>')
+@app.route('/<pin>/<age>')
 @app.route('/index')
-def co_api(idx=670):
-    dict1 = cowin_api(str(idx))
+@app.route('/<pin>')
+def co_api(pin=226010,age=45):
+    dict1 = cowin_api(str(pin),age)
     #print(dict1)
     return render_template('index.html', dict1=dict1)
